@@ -1,0 +1,24 @@
+%This code should be run in MATLAB
+
+%The outputs of the trained deep learning models will be defined in a specific folder. You must be in that folder within MATLAB to run the code below.
+%The outputs will be in the form of NIfTI (nii) files which are visual maps of the quantitative histological estimates.
+%We can load these below:
+fv=load_untouch_nii('fv.nii.gz',1).img;
+ffw=load_untouch_nii('ffw.nii.gz',1).img;
+ficvf=load_untouch_nii('ficvf.nii.gz',1).img;
+fee=load_untouch_nii('fee.nii.gz',1).img;
+
+%Define the pathway to the ROI NIfTI file of the patient. This defines the core of the tumour and the peri-tumoural region.
+ROIs=load_untouch_nii('D:').img;
+
+%Once the ROI is defined, the average volume fraction for each compartment can be calculated across all voxels in the image.
+%If ROIs==1 this will be used to calculate the volume fractions in the core of the tumour. ROIs==2 is for the peri-tumoural area.
+
+mffw_core=mean(ffw(ROIs==1));
+mffw_peri=mean(ffw(ROIs==2));
+mfic_core=mean(ficvf(ROIs==1));
+mfic_peri=mean(ficvf(ROIs==2));
+mfv_core=mean(fv(ROIs==1));
+mfv_peri=mean(fv(ROIs==2));
+mfee_core=mean(fee(ROIs==1));
+mfee_peri=mean(fee(ROIs==2));
